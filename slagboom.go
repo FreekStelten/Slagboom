@@ -1,45 +1,55 @@
-package database
+package main
 
 import (
-	"database/sql"
+	"flag"
 	"fmt"
+	"os"
 	"time"
 
-	"github.com/go-sql-driver/mysql"
+	//data "git.fhict.nl/I882775/gatekeeper/data"
+	datetime "git.fhict.nl/I882775/gatekeeper/datetime"
+	logger "git.fhict.nl/I882775/gatekeeper/logging"
+	database "git.fhict.nl/I882775/gatekeeper/database"
 )
 
-var db *sql.DB
+var licensePlate string
+var countryCode string
 
-func Connect() error {
-	//ToDo: make configurable
-	cfg := mysql.Config{
-		User:      "root",
-		Passwd:    "my-secret-pw",
-		Net:       "tcp",
-		Addr:      "127.0.0.1:3308",
-		DBName:    "fonteyn_reservations",
-		ParseTime: true,
+func init() {
+	flag.StringVar(&licensePlate, "licensePlate", "", "specify the license plate number")
+	flag.Parse()
+	if licensePlate == "" {
+		fmt.Println("Please specify a license plate number")
+		flag.PrintDefaults()
+		os.Exit(1)
 	}
-
-	var err error
-	db, err = sql.Open("mysql", cfg.FormatDSN())
+	var found bool = false
+	countryCode, found = os.LookupEnv("fonteyn_parc_country")
+	if !found {
+		fmt.Println("Couldn't find the environment variable 'fonteyn_parc_country'")
+		os.Exit(2)
+	}
+	err := database.Connect()
 	if err != nil {
-		return err
+		logger.LogFatal(fmt.Errorf("failed to connect to db %v", err).Error(), 3)
 	}
-
-	pingErr := db.Ping()
-	if pingErr != nil {
-		return pingErr
-	}
-	return nil
+	logger.LogInfo("Finished initializing app")
 }
 
-type ValidationResult struct {
-	Result bool
-	Message string
-}
-
-type period struct {
-	startDate time.Time
-	endDate   time.Time
+func main() {
+	dayPart := datetime.GetDayPart(time.Now())
+	if dayPart == datetime.Night {
+		fmt.Println("Sorry, the parkinglot is closed at night.")
+		return
+	}
+	result, err := database.CheckBooking(licensePlate, time.Now(), countryCode)
+	if err != nil {
+		logger.LogFatal(err.Error(), 4)
+	}
+	if result.Result {
+		fmt.Println("Welcome to Fonteyn Holidayparcs!")
+	} else {
+		logger.LogWarning(result.Message)
+		fmt.Println("Sorry, you cannot access this parking lot.")
+	}
 }
