@@ -1,33 +1,35 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-	"log"
-	"time"
+    "database/sql"
+    "fmt"
 
-	"github.com/go-sql-driver/mysql"
+    _ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	db, err := sql.Open("mysql", "Admin:Fonteyn@DB(hostname:3306)/slagboom_db")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
+    // Set up database connection parameters
+    dbUser := "Admin"
+    dbPass := "Fonteyn@DB"
+    dbName := "slagboom_db"
+    dbAddress := "127.0.0.1"
 
-	// Retrieve the license plate from the gate
-	licensePlate := "ABC123"
+    // Create data source name (DSN)
+    dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", dbUser, dbPass, dbAddress, dbName)
 
-	// Check if the license plate is found in the database
-	var name, email string
-	err = db.QueryRow("SELECT name, email FROM reservations WHERE license_plate = ? AND start_time <= ? AND end_time >= ?", licensePlate, time.Now(), time.Now()).Scan(&name, &email)
-	switch {
-	case err == sql.ErrNoRows:
-		fmt.Println("License plate not found in database.")
-	case err != nil:
-		log.Fatal(err)
-	default:
-		fmt.Printf("Welcome %s! Email: %s\n", name, email)
-	}
+    // Connect to database
+    db, err := sql.Open("mysql", dsn)
+    if err != nil {
+        panic(err.Error())
+    }
+    defer db.Close()
+
+    // Ping database to ensure connection is valid
+    err = db.Ping()
+    if err != nil {
+        panic(err.Error())
+    }
+
+    // Connection successful
+    fmt.Println("Connected to database!")
 }
