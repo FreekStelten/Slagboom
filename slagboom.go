@@ -34,23 +34,32 @@ func main() {
 
 	// Connection successful
 	fmt.Println("Connected to database!")
+	var name, licenseplate string
+rows, err := db.Query("SELECT name,licenseplate FROM klant WHERE licenseplate = ?", 1234)
+if err != nil {
+	panic(err.Error())
+}
+defer rows.Close()
 
-	rows, err := db.Query("SELECT name,licenseplate FROM klant ")
-    if err != nil {
-        panic(err.Error())
-    }
-    defer rows.Close()
+for rows.Next() {
+	err = rows.Scan(&name, &licenseplate)
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("Welcome %s, your license plate is %s.\n", name, licenseplate)
+}
 
-    // Iterate over the query results and print the data
-    for rows.Next() {
-        var name string
-        var licenceplate string
 
-        err := rows.Scan(&name, &licenceplate)
-        if err != nil {
-            panic(err.Error())
-        }
+	// Iterate over the query results and print the data
+	for rows.Next() {
+		//  var name string
+		//  var licenceplate string
 
-        fmt.Printf("welkom %s uw nummerplaat is %s.\n", name, licenceplate)
-    }
+	//	err := rows.Scan(&name, &licenceplate)
+	//	if err != nil {
+	//		panic(err.Error())
+	//	}
+
+//		fmt.Printf("welkom %s uw nummerplaat is %s.\n", name, licenceplate)
+	}
 }
