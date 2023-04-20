@@ -11,7 +11,7 @@ func main() {
 	// Set up database connection parameters
 	dbUser := "Admin"
 	dbPass := "Fonteyn@DB"
-	dbName := "slagboomm_db"
+	dbName := "slagboom_db"
 	dbAddress := "127.0.0.1"
 
 	// Create data source name (DSN)
@@ -34,4 +34,23 @@ func main() {
 
 	// Connection successful
 	fmt.Println("Connected to database!")
+
+	rows, err := db.Query("SELECT name,licenseplate FROM klant ")
+    if err != nil {
+        panic(err.Error())
+    }
+    defer rows.Close()
+
+    // Iterate over the query results and print the data
+    for rows.Next() {
+        var name string
+        var licenceplate string
+
+        err := rows.Scan(&name, &licenceplate)
+        if err != nil {
+            panic(err.Error())
+        }
+
+        fmt.Printf("welkom %s uw nummerplaat is %s.\n", name, licenceplate)
+    }
 }

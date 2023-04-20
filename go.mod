@@ -2,7 +2,7 @@ module puppy
 
 go 1.19
 
-require github.com/go-sql-driver/mysql v1.7.0 // indirect
+require github.com/go-sql-driver/mysql v1.7.0 // direct
 
 // Uitleg Go.Mod:Een go.mod bestand is een bestand dat wordt gebruikt door Go-modules om afhankelijkheden te beheren en te versiebeheer 
 // van Go-pakketten en hun bijbehorende modules. Het go.mod bestand bevat informatie over de naam van het project, de vereiste versie 
