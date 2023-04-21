@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -21,7 +22,9 @@ func main() {
 	// Connect to database
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
-		fmt.Println("er kan geen connecting naar de database gemaakt worden:", err.Error())
+		errMsg := fmt.Sprintf("er kan geen connecting naar de database gemaakt worden: %s", err.Error())
+		log.Println(errMsg)
+		logError(errMsg)
 		return
 	}
 	defer db.Close()
@@ -29,7 +32,9 @@ func main() {
 	// Ping database to ensure connection is valid
 	err = db.Ping()
 	if err != nil {
-		fmt.Println("Er kan niet gepingt worden naar de database:", err.Error())
+		errMsg := fmt.Sprintf("Er kan niet gepinged worden naar de database: %s", err.Error())
+		log.Println(errMsg)
+		logError(errMsg)
 		return
 	}
 
@@ -38,28 +43,33 @@ func main() {
 	var name, licenseplate string
 	rows, err := db.Query("SELECT name,licenseplate FROM klant WHERE licenseplate = ?", os.Args[1])
 	if err != nil {
-		panic(err.Error())
+		errMsg := fmt.Sprintf("%s", err.Error())
+		log.Println(errMsg)
+		logError(errMsg)
+		return
 	}
 	defer rows.Close()
 
 	for rows.Next() {
 		err = rows.Scan(&name, &licenseplate)
 		if err != nil {
-			panic(err.Error())
+			errMsg := fmt.Sprintf("%s", err.Error())
+			log.Println(errMsg)
+			logError(errMsg)
+			return
 		}
 		fmt.Printf("Welkom: %s, Jouw kenteken is %s.\n", name, licenseplate)
 	}
+}
 
-	// Iterate over the query results and print the data
-	for rows.Next() {
-		//  var name string
-		//  var licenceplate string
-
-		//	err := rows.Scan(&name, &licenceplate)
-		//	if err != nil {
-		//		panic(err.Error())
-		//	}
-
-		//		fmt.Printf("welkom %s uw nummerplaat is %s.\n", name, licenceplate)
+func logError(errMsg string) {
+	file, err := os.OpenFile("errorlogs.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		log.Println("Failed to open errorlogs.txt:", err.Error())
+		return
 	}
+	defer file.Close()
+
+	log.SetOutput(file)
+	log.Println(errMsg)
 }

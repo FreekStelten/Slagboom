@@ -1,3 +1,6 @@
 2023/04/20 11:17:59 Access denied for license plate: 1234
 2023/04/20 11:21:13 Access denied for license plate: AB12345
 2023/04/20 11:21:21 Access denied for license plate: AB12345
+2023/04/21 13:13:32 <nil>
+2023/04/21 13:14:23 <nil>
+2023/04/21 13:16:27 Er kan niet gepinged worden naar de database: Error 1049 (42000): Unknown database 'slagboo0m_db'
