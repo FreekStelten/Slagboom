@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -15,6 +16,14 @@ func main() {
 	dbPass := "Fonteyn@DB"
 	dbName := "slagboom_db"
 	dbAddress := "127.0.0.1"
+
+	plate := flag.String("plate", "", "er moet een kenteken opgegeven worden!")
+	flag.Parse()
+	if !flag.Parsed() || *plate == "" {
+		flag.Usage()
+		log.Println("Geen kenteken opgegeven, probeer het opnieuw.")
+		os.Exit(1)
+	}
 
 	// Create data source name (DSN)
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", dbUser, dbPass, dbAddress, dbName)
@@ -41,7 +50,7 @@ func main() {
 	// Connection successful
 	fmt.Println("Connected to database!")
 	var name, licenseplate string
-	rows, err := db.Query("SELECT name,licenseplate FROM klant WHERE licenseplate = ?", os.Args[1])
+	rows, err := db.Query("SELECT name,licenseplate FROM klant WHERE licenseplate = ?", *plate)
 	if err != nil {
 		errMsg := fmt.Sprintf("%s", err.Error())
 		log.Println(errMsg)
