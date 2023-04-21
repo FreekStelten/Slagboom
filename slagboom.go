@@ -22,6 +22,7 @@ func main() {
 	if !flag.Parsed() || *plate == "" {
 		flag.Usage()
 		log.Println("Geen kenteken opgegeven, probeer het opnieuw.")
+		logError("Geen kenteken opgegeven, probeer het opnieuw.")
 		os.Exit(1)
 	}
 

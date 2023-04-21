@@ -4,3 +4,7 @@
 2023/04/21 13:13:32 <nil>
 2023/04/21 13:14:23 <nil>
 2023/04/21 13:16:27 Er kan niet gepinged worden naar de database: Error 1049 (42000): Unknown database 'slagboo0m_db'
+2023/04/21 13:34:47 Er kan niet gepinged worden naar de database: Error 1049 (42000): Unknown database 'slagbo0om_db'
+2023/04/21 13:38:12 Geen kenteken opgegeven, probeer het opnieuw.
+2023/04/21 13:43:18 Er kan niet gepinged worden naar de database: Error 1045 (28000): Access denied for user 'Aadmin'@'localhost' (using password: YES)
+2023/04/21 13:43:38 Er kan niet gepinged worden naar de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
