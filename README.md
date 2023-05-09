@@ -17,4 +17,4 @@ C:\fontys\jaar 1\S2\Code\Slagboom\Slagboom\errorlogs.txt
 **LogLevel**: 
 in de logfile worden alle foutmeldingen die voor kunnen komen getoond. er staat de datum en tijd bij dus dan is goed te achterhalen
 wanneer er iets is voorgekomen.
- 
+  

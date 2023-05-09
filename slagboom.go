@@ -54,7 +54,7 @@ func main() {
 		logError(errMsg)
 		return
 	}
-
+ 
 	// Connection successful, als de vorige stappen succesvol doorlopen zijn geeft die in de terminal aan"connected to database".
 	// worden er 2 variablen aangemaakt genaamd: name en licenseplate. die ook allebei strings zijn.
 	// er wordt een query toegepast uit de bovengenoemde db, om alle rijen te selecteren in de tabel klant waarvan de waarde van het veld licenseplate gelijk is aan *plate.
