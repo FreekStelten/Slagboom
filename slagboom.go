@@ -1,6 +1,5 @@
 package main
 
-
 import (
 	"database/sql"
 	"flag"
@@ -21,7 +20,7 @@ func main() {
 	//plate is een argument om het kenteken te ontvangen zodat klantgegevens moet opgehaald kan worden.
 	//flag wordt gebruikt om om dit argument uit te lezen. als er geen argument kan gelezen worden dan wordt
 	// de usage functie aangeroepen om te laten zien het programma correct gebruikt kan worden. en dan wordt de code met exit code afgesloten.
-	plate := flag.String("plate", "", "er moet een kenteken opgegeven worden!")
+	plate := flag.String("plate", "", "Code1: er moet een geldig kenteken opgegeven worden!")
 	flag.Parse()
 	if !flag.Parsed() || *plate == "" {
 		flag.Usage()
@@ -37,7 +36,7 @@ func main() {
 	//nieuwe DB conn te openen met de opgegeven dsn, als dit niet lukt wordt er een error geschreven naar de console en errorfile.
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
-		errMsg := fmt.Sprintf("er kan geen connecting naar de database gemaakt worden: %s", err.Error())
+		errMsg := fmt.Sprintf("code2: db gegevens niet vindbaar: %s", err.Error())
 		log.Println(errMsg)
 		logError(errMsg)
 		return
@@ -50,7 +49,7 @@ func main() {
 	//logError(). Vervolgens wordt de functie gestopt via de return statement.
 	err = db.Ping()
 	if err != nil {
-		errMsg := fmt.Sprintf("Er kan geen connectie gemaakt worden met de database: %s", err.Error())
+		errMsg := fmt.Sprintf("code3: Er kan geen connectie gemaakt worden met de database: %s", err.Error())
 		log.Println(errMsg)
 		logError(errMsg)
 		return
