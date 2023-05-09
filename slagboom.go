@@ -87,7 +87,7 @@ func main() {
 		//dus= welkom: Name , Jouw kenteken is Kenteken.
 		fmt.Printf("Welkom: %s, Jouw kenteken is %s.\n", name, licenseplate)
 	}
-}
+} 
 
 // logerror slaat een foutmleding op in een bestand genaamd errorlogs.txt. als daar een fout mee is dan wordt de fout naar de terminal gestuurd en wordt de functie verlaten.
 func logError(errMsg string) {
