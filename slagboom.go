@@ -40,7 +40,7 @@ func main() {
 		log.Println(errMsg)
 		logError(errMsg)
 		return
-	}
+	} 
 	//defer dbclose wordt gebruikt om de conn met de db af te sluiten na de functie als er een error voorkomt.
 	defer db.Close()
 
