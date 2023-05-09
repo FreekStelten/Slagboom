@@ -10,7 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func main() {
+func main() { 
 	//Database connectie gemaakt/ staat als hardcode nu erin. dit is niet veilig.
 	dbUser := "Admin"
 	dbPass := "Fonteyn@DB"
