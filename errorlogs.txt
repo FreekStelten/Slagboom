@@ -12,4 +12,5 @@
 2023/04/21 13:48:24 Geen kenteken opgegeven, probeer het opnieuw.
 2023/04/21 14:08:48 Geen kenteken opgegeven, probeer het opnieuw.
 2023/05/01 16:15:29 Er kan niet gepinged worden naar de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
- 2023/05/09 13:49:40 Er kan niet gepinged worden naar de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
+2023/05/09 13:49:40 Er kan niet gepinged worden naar de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
+2023/05/09 13:51:05 Er kan niet gepinged worden naar de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.

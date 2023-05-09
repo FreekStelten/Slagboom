@@ -1,4 +1,5 @@
 package main
+
 //
 import (
 	"database/sql"
@@ -10,7 +11,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func main() { 
+func main() {
 	//Database connectie gemaakt/ staat als hardcode nu erin. dit is niet veilig.
 	dbUser := "Admin"
 	dbPass := "Fonteyn@DB"
@@ -49,7 +50,7 @@ func main() {
 	//logError(). Vervolgens wordt de functie gestopt via de return statement.
 	err = db.Ping()
 	if err != nil {
-		errMsg := fmt.Sprintf("Er kan niet gepinged worden naar de database: %s", err.Error())
+		errMsg := fmt.Sprintf("Er kan geen connectie gemaakt worden met de database: %s", err.Error())
 		log.Println(errMsg)
 		logError(errMsg)
 		return
@@ -87,7 +88,7 @@ func main() {
 		//dus= welkom: Name , Jouw kenteken is Kenteken.
 		fmt.Printf("Welkom: %s, Jouw kenteken is %s.\n", name, licenseplate)
 	}
-} 
+}
 
 // logerror slaat een foutmleding op in een bestand genaamd errorlogs.txt. als daar een fout mee is dan wordt de fout naar de terminal gestuurd en wordt de functie verlaten.
 func logError(errMsg string) {
