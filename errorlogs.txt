@@ -15,3 +15,10 @@
 2023/05/09 13:49:40 Er kan niet gepinged worden naar de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
 2023/05/09 13:51:05 Er kan niet gepinged worden naar de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
  2023/05/09 14:16:24 Geen kenteken opgegeven, probeer het opnieuw.
+2023/05/11 09:24:07 Geen kenteken opgegeven, probeer het opnieuw.
+2023/05/11 09:37:56 Geen kenteken opgegeven, probeer het opnieuw.
+2023/05/11 09:39:32 Geen kenteken opgegeven, probeer het opnieuw.
+2023/05/11 09:40:37 Geen kenteken opgegeven, probeer het opnieuw.
+2023/05/11 09:48:59 Geen kenteken opgegeven, probeer het opnieuw.
+2023/05/11 09:51:51 code3: Er kan geen connectie gemaakt worden met de database: Error 1049 (42000): Unknown database 'slagboom_db1'
+2023/05/11 10:38:28 voer een geldig kenteken op, deze is niet op uw reservering gezet, probeer het opnieuw.

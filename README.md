@@ -7,6 +7,7 @@ Bij het betreden van het vakantiepark kan de app worden gebruikt om de poort te 
 1. er is geen kenteken opgegeven.
 2. er is geen database gevonden met de naam slagboom_db
 3. er kan geen connecting naar de database gemaakt worden
+4. OS exit [1] stopt de hele code.
 
 ## Log Configuration
 Om ervoor te zorgen dat de applicatie fouten op een effectieve manier kan opsporen en oplossen, moet er een logbestand worden gemaakt. Dit logbestand moet worden genoemd errorlogs.txt en moet zich bevinden in de hoofdmap van de applicatie. Hierdoor kan de applicatie alle relevante gebeurtenissen en fouten bijhouden en kunnen ontwikkelaars deze informatie gebruiken om eventuele problemen op te lossen.

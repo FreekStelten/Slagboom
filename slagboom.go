@@ -40,7 +40,7 @@ func main() {
 		log.Println(errMsg)
 		logError(errMsg)
 		return
-	} 
+	}
 	//defer dbclose wordt gebruikt om de conn met de db af te sluiten na de functie als er een error voorkomt.
 	defer db.Close()
 
@@ -54,15 +54,16 @@ func main() {
 		logError(errMsg)
 		return
 	}
- 
+
 	// Connection successful, als de vorige stappen succesvol doorlopen zijn geeft die in de terminal aan"connected to database".
 	// worden er 2 variablen aangemaakt genaamd: name en licenseplate. die ook allebei strings zijn.
 	// er wordt een query toegepast uit de bovengenoemde db, om alle rijen te selecteren in de tabel klant waarvan de waarde van het veld licenseplate gelijk is aan *plate.
 	//Het resultaat wordt opgeslagen in de variabele rows. Als er een fout optreedt tijdens het uitvoeren van de query, wordt de fout opgeslagen in de variabele err.
 	//bij if err!=... controleert of er een fout is opgetreden bij uitvoeren query. zoja wordt de fout opgeslagen in de variabele errMsg, dat wordt laten zien in de terminal en de errologsfile.
 	fmt.Println("Connected to database!")
-	var name, licenseplate string
-	rows, err := db.Query("SELECT name,licenseplate FROM klant WHERE licenseplate = ?", *plate)
+
+	var name, licenseplate, begindatum, vertrekdatum string
+	rows, err := db.Query("SELECT name, licenseplate, begindatum, vertrekdatum FROM klant WHERE licenseplate = ?", *plate)
 	if err != nil {
 		errMsg := fmt.Sprintf("%s", err.Error())
 		log.Println(errMsg)
@@ -73,20 +74,27 @@ func main() {
 	defer rows.Close()
 
 	//for rows.next itereert door elke rij die is geretourneerd door de query.
-	//err = rows.Scan(&name, &licenseplate): Dit scant de waarden van de kolommen name en licenseplate in de huidige rij en slaat ze op in de variabelen name en licenseplate.
-	//Als er een fout optreedt tijdens het scannen, wordt de fout in de terminal getoond en errorlogfile.
-	for rows.Next() {
-		err = rows.Scan(&name, &licenseplate)
-		if err != nil {
-			errMsg := fmt.Sprintf("%s", err.Error())
-			log.Println(errMsg)
-			logError(errMsg)
-			return
-		}
-		//Dit wordt getoond in de terminal, als alles woordt doorgelopen wordt de eerste %s (string;Name) en daarna de 2e %s (stringl;licenseplate) getoond
-		//dus= welkom: Name , Jouw kenteken is Kenteken.
-		fmt.Printf("Welkom: %s, Jouw kenteken is %s.\n", name, licenseplate)
+	//dit is het geval als er een kenteken wordt opgegeven en die niet in de database staat.
+	if !rows.Next() {
+		log.Println("voer een geldig kenteken op, deze is niet op uw reservering gezet, probeer het opnieuw.")
+		logError("voer een geldig kenteken op, deze is niet op uw reservering gezet, probeer het opnieuw.")
+		os.Exit(1)
 	}
+
+	//err = rows.Scan(&name, &licenseplate): Dit scant de waarden van de kolommen name en licenseplate in
+	//de huidige rij en slaat ze op in de variabelen name en licenseplate.
+	//Als er een fout optreedt tijdens het scannen, wordt de fout in de terminal getoond en errorlogfile.
+	err = rows.Scan(&name, &licenseplate, &vertrekdatum, &begindatum)
+	if err != nil {
+		errMsg := fmt.Sprintf("%s", err.Error())
+		log.Println(errMsg)
+		logError(errMsg)
+		return
+	}
+
+	//Dit wordt getoond in de terminal, als alles woordt doorgelopen wordt de eerste %s (string;Name) en daarna de 2e %s (stringl;licenseplate) getoond
+	//dus= welkom: Name , Jouw kenteken is Kenteken.
+	fmt.Printf("Welkom: %s, Jouw kenteken is %s, je begindatum is %s, je vertrekdatum is %s. \n", name, licenseplate, vertrekdatum, begindatum)
 }
 
 // logerror slaat een foutmleding op in een bestand genaamd errorlogs.txt. als daar een fout mee is dan wordt de fout naar de terminal gestuurd en wordt de functie verlaten.
