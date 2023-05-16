@@ -11,7 +11,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/yaml.v2"
 )
-
+ 
 // err := GetConfig("config.yaml"): Deze regel roept de functie GetConfig aan en geeft het argument
 // "config.yaml" mee, naam van het configuratiebestand dat moet worden opgehaald.
 // Het resultaat van de functie wordt toegewezen aan de variabele err.
