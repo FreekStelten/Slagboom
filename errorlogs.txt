@@ -42,3 +42,4 @@
 2023/05/16 16:02:36  configfile not found: yaml: line 2: found character that cannot start any token
 2023/05/16 16:03:35 code3: Er kan geen connectie gemaakt worden met de database: Error 1045 (28000): Access denied for user ''@'localhost' (using password: NO)
 2023/05/16 16:03:48 code3: Er kan geen connectie gemaakt worden met de database: Error 1045 (28000): Access denied for user ''@'localhost' (using password: NO)
+2023/05/16 17:16:58 code3: Er kan geen connectie gemaakt worden met de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.

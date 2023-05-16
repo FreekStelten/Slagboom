@@ -11,7 +11,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/yaml.v2"
 )
-
+//err := GetConfig("config.yaml"): Deze regel roept de functie GetConfig aan en geeft het argument 
+//"config.yaml" mee, naam van het configuratiebestand dat moet worden opgehaald.
+// Het resultaat van de functie wordt toegewezen aan de variabele err.
 func main() {
 	err := GetConfig("config.yaml")
 	if err != nil {
@@ -114,7 +116,9 @@ func logError(errMsg string) {
 	//print de errormessage uit als de errorlogfile niet gevonden kan worden.
 	log.Println(errMsg)
 }
-
+//Deze code leest een YAML-configuratiebestand in en slaat de inhoud ervan op in een Configuration-variabele van het type Config. 
+//De functie GetConfig leest het bestand en gebruikt yaml.Unmarshal om de YAML-gegevens om te zetten naar de Configuration-variabele. 
+//Als er een fout optreedt, wordt de fout geretourneerd.
 var Configuration Config
 
 type Config struct {
