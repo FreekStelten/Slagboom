@@ -4,19 +4,22 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	"gopkg.in/yaml.v2"
 )
 
 func main() {
-	//Database connectie gemaakt/ staat als hardcode nu erin. dit is niet veilig.
-	dbUser := "Admin"
-	dbPass := "Fonteyn@DB"
-	dbName := "slagboom_db"
-	dbAddress := "127.0.0.1"
-
+	err := GetConfig("config.yaml")
+	if err != nil {
+		errMsg := fmt.Sprintf(" configfile not found: %s", err.Error())
+		log.Println(errMsg)
+		logError(errMsg)
+		return
+	}
 	//plate is een argument om het kenteken te ontvangen zodat klantgegevens moet opgehaald kan worden.
 	//flag wordt gebruikt om om dit argument uit te lezen. als er geen argument kan gelezen worden dan wordt
 	// de usage functie aangeroepen om te laten zien het programma correct gebruikt kan worden. en dan wordt de code met exit code afgesloten.
@@ -31,7 +34,7 @@ func main() {
 
 	// Create data source name (DSN)
 	//connectie met database gemaakt, datasourcename gegenereerd met de gegevens van de db conn parameters.
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", dbUser, dbPass, dbAddress, dbName)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", Configuration.Database.DbUser, Configuration.Database.DbPass, Configuration.Database.DbAddress, Configuration.Database.DbName)
 
 	//nieuwe DB conn te openen met de opgegeven dsn, als dit niet lukt wordt er een error geschreven naar de console en errorfile.
 	db, err := sql.Open("mysql", dsn)
@@ -110,4 +113,34 @@ func logError(errMsg string) {
 	log.SetOutput(file)
 	//print de errormessage uit als de errorlogfile niet gevonden kan worden.
 	log.Println(errMsg)
+}
+
+var Configuration Config
+
+type Config struct {
+	Database struct {
+		DbUser    string `yaml:"dbUser"`
+		DbPass    string `yaml:"dbPass"`
+		DbName    string `yaml:"dbName"`
+		DbAddress string `yaml:"dbAddress"`
+	} `yaml:"database"`
+}
+
+func GetConfig(fileLocation string) error {
+
+	// Read the file
+	data, err := ioutil.ReadFile(fileLocation)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	// Unmarshal the YAML data into the struct
+	err = yaml.Unmarshal(data, &Configuration)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return nil
 }

@@ -1,0 +1,5 @@
+database: #Database connectie gemaakt/ staat als hardcode nu erin. dit is niet veilig.
+  dbUser: "Admin"
+  dbPass: "Fonteyn@DB"
+  dbName: "slagboom_db"
+  dbAddress: "127.0.0.1"
