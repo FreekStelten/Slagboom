@@ -30,7 +30,7 @@ func main() {
 	flag.Parse()
 	if !flag.Parsed() || *plate == "" {
 		flag.Usage()
-		log.Println("Geen kenteken opgegeven, probeer het opnieuw.")
+		log.Println("Geen kenteken opgegeven, Probeer het opnieuw.")
 		logError("Geen kenteken opgegeven, probeer het opnieuw.")
 		os.Exit(1)
 	}

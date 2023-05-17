@@ -1,4 +1,4 @@
-database: #Database connectie gemaakt 
+database: #Database connectie gemaakt
   dbUser: "Admin"
   dbPass: "Fonteyn@DB"
   dbName: "slagboom_db"
