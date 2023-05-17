@@ -1,0 +1,5 @@
+database: #Database connectie gemaakt
+  dbUser: "Admin"
+  dbPass: "Fonteyn@DB"
+  dbName: "slagboom_db"
+  dbAddress: "127.0.0.1"
