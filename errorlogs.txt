@@ -43,3 +43,10 @@
 2023/05/16 16:03:35 code3: Er kan geen connectie gemaakt worden met de database: Error 1045 (28000): Access denied for user ''@'localhost' (using password: NO)
 2023/05/16 16:03:48 code3: Er kan geen connectie gemaakt worden met de database: Error 1045 (28000): Access denied for user ''@'localhost' (using password: NO)
 2023/05/16 17:16:58 code3: Er kan geen connectie gemaakt worden met de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
+2023/05/22 12:17:01 mssql: Incorrect syntax near '?'.
+2023/05/22 12:18:32 mssql: Incorrect syntax near '?'.
+2023/05/22 12:18:52 mssql: Incorrect syntax near '?'.
+2023/05/22 13:06:10 mssql: Incorrect syntax near '?'.
+2023/05/22 13:09:26 mssql: Incorrect syntax near '?'.
+2023/05/22 13:12:28 mssql: Invalid column name 'licenseplate'.
+2023/05/22 13:58:27 voer een geldig kenteken op, deze is niet op uw reservering gezet, probeer het opnieuw.

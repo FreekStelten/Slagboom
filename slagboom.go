@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"flag"
 	"fmt"
@@ -8,6 +9,7 @@ import (
 	"log"
 	"os"
 
+	_ "github.com/denisenkom/go-mssqldb" // Import the MSSQL driver package
 	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/yaml.v2"
 )
@@ -37,16 +39,21 @@ func main() {
 
 	// Create data source name (DSN)
 	//connectie met database gemaakt, datasourcename gegenereerd met de gegevens van de db conn parameters.
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", Configuration.Database.DbUser, Configuration.Database.DbPass, Configuration.Database.DbAddress, Configuration.Database.DbName)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", Configuration.DatabaseLocal.DblUser, Configuration.DatabaseLocal.DblPass, Configuration.DatabaseLocal.DblAddress, Configuration.DatabaseLocal.DblName)
 
-	//nieuwe DB conn te openen met de opgegeven dsn, als dit niet lukt wordt er een error geschreven naar de console en errorfile.
-	db, err := sql.Open("mysql", dsn)
+	var db *sql.DB
+	db, err = ConnectionAzure()
 	if err != nil {
-		errMsg := fmt.Sprintf("code2: db gegevens niet vindbaar: %s", err.Error())
-		log.Println(errMsg)
-		logError(errMsg)
-		return
+		//nieuwe DB conn te openen met de opgegeven dsn, als dit niet lukt wordt er een error geschreven naar de console en errorfile.
+		db, err = sql.Open("mysql", dsn)
+		if err != nil {
+			errMsg := fmt.Sprintf("code2: db gegevens niet vindbaar: %s", err.Error())
+			log.Println(errMsg)
+			logError(errMsg)
+			return
+		}
 	}
+
 	//defer dbclose wordt gebruikt om de conn met de db af te sluiten na de functie als er een error voorkomt.
 	defer db.Close()
 
@@ -66,10 +73,11 @@ func main() {
 	// er wordt een query toegepast uit de bovengenoemde db, om alle rijen te selecteren in de tabel klant waarvan de waarde van het veld licenseplate gelijk is aan *plate.
 	//Het resultaat wordt opgeslagen in de variabele rows. Als er een fout optreedt tijdens het uitvoeren van de query, wordt de fout opgeslagen in de variabele err.
 	//bij if err!=... controleert of er een fout is opgetreden bij uitvoeren query. zoja wordt de fout opgeslagen in de variabele errMsg, dat wordt laten zien in de terminal en de errologsfile.
-	fmt.Println("Connected to database!")
+	fmt.Println("Connected Local database!")
 
 	var name, licenseplate, begindatum, vertrekdatum string
-	rows, err := db.Query("SELECT name, licenseplate, begindatum, vertrekdatum FROM klant WHERE licenseplate = ?", *plate)
+	testInputPlate := ("SELECT name, licenceplate, begindatum, einddatum FROM [dbo].[slagboom_db] WHERE licenceplate = " + *plate)
+	rows, err := db.Query(testInputPlate)
 	if err != nil {
 		errMsg := fmt.Sprintf("%s", err.Error())
 		log.Println(errMsg)
@@ -124,12 +132,20 @@ func logError(errMsg string) {
 var Configuration Config
 
 type Config struct {
-	Database struct {
-		DbUser    string `yaml:"dbUser"`
-		DbPass    string `yaml:"dbPass"`
-		DbName    string `yaml:"dbName"`
-		DbAddress string `yaml:"dbAddress"`
-	} `yaml:"database"`
+	DatabaseLocal struct {
+		DblUser    string `yaml:"dblUser"`
+		DblPass    string `yaml:"dblPass"`
+		DblName    string `yaml:"dblName"`
+		DblAddress string `yaml:"dblAddress"`
+	} `yaml:"databaseLocal"`
+	DatabaseAzure struct {
+		Db       string `yaml:"db"`
+		Server   string `yaml:"server"`
+		Port     int    `yaml:"port"`
+		User     string `yaml:"user"`
+		Password string `yaml:"password"`
+		Database string `yaml:"database"`
+	} `yaml:"databaseAzure"`
 }
 
 func GetConfig(fileLocation string) error {
@@ -149,4 +165,25 @@ func GetConfig(fileLocation string) error {
 	}
 
 	return nil
+}
+
+func ConnectionAzure() (*sql.DB, error) {
+	// Build connection string
+	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
+		Configuration.DatabaseAzure.Server, Configuration.DatabaseAzure.User, Configuration.DatabaseAzure.Password, Configuration.DatabaseAzure.Port, Configuration.DatabaseAzure.Database)
+	var err error
+	// Create connection pool
+	db, err := sql.Open("sqlserver", connString)
+	if err != nil {
+		fmt.Println("error bij connectie database azure: ", err.Error())
+		return nil, err
+	}
+	ctx := context.Background()
+	err = db.PingContext(ctx)
+	if err != nil {
+		fmt.Println(err.Error())
+		return nil, err
+	}
+	fmt.Printf("Connected azure database!!")
+	return db, err
 }

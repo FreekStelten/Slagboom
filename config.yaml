@@ -1,5 +1,12 @@
-database: #Database connectie gemaakt
-  dbUser: "Admin"
-  dbPass: "Fonteyn@DB"
-  dbName: "slagboom_db"
-  dbAddress: "127.0.0.1"
+databaseLocal: #Database connectie gemaakt
+  dblUser: "Admin"
+  dblPass: "Fonteyn@DB"
+  dblName: "slagboom_db"
+  dblAddress: "127.0.0.1"
+databaseAzure: #Database connectie azure
+  db: "*sql.DB"
+  server: "databasefonteyn.database.windows.net"
+  port: 1433
+  user: "freek"
+  password: "StudentStudent!"
+  database: "Databasefonteyn"
