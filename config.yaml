@@ -9,4 +9,4 @@ databaseAzure: #Database connectie azure
   port: 1433
   user: "freek"
   password: "StudentStudent!"
-  database: "Databasefonteyn"
+  database: "Databasefonteyn_2023-05-23T14-04Z"

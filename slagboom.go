@@ -148,6 +148,8 @@ type Config struct {
 	} `yaml:"databaseAzure"`
 }
 
+// de functie genaamd GetConfig die een configuratiebestand in YAML-indeling leest, de inhoud ontcijfert naar een struct genaamd Configuration,
+// en een error retourneert als er een probleem optreedt bij het lezen of ontcijferen van het bestand.
 func GetConfig(fileLocation string) error {
 
 	// Read the file
@@ -155,6 +157,7 @@ func GetConfig(fileLocation string) error {
 	if err != nil {
 		fmt.Println(err)
 		return err
+
 	}
 
 	// Unmarshal the YAML data into the struct
@@ -167,6 +170,9 @@ func GetConfig(fileLocation string) error {
 	return nil
 }
 
+// functie genaamd ConnectionAzure heeft een verbinding met een Azure SQL-database door een verbindingssnarenreeks op te bouwen met behulp van de
+// opgegeven configuratiegegevens, een verbindingenpool te maken met behulp van sql.Open, een ping naar de database te sturen met behulp van db.PingContext(ctx) om
+// de verbinding te controleren en bij succes "Connected azure database!!" af te drukken, waarna het db-object en err als uitvoer van de functie worden geretourneerd.
 func ConnectionAzure() (*sql.DB, error) {
 	// Build connection string
 	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",

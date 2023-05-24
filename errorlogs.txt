@@ -50,3 +50,9 @@
 2023/05/22 13:09:26 mssql: Incorrect syntax near '?'.
 2023/05/22 13:12:28 mssql: Invalid column name 'licenseplate'.
 2023/05/22 13:58:27 voer een geldig kenteken op, deze is niet op uw reservering gezet, probeer het opnieuw.
+2023/05/22 14:33:34 voer een geldig kenteken op, deze is niet op uw reservering gezet, probeer het opnieuw.
+2023/05/24 10:28:30 Geen kenteken opgegeven, probeer het opnieuw.
+2023/05/24 10:28:37 Geen kenteken opgegeven, probeer het opnieuw.
+2023/05/24 10:28:49 code3: Er kan geen connectie gemaakt worden met de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
+2023/05/24 10:28:57 code3: Er kan geen connectie gemaakt worden met de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
+2023/05/24 10:31:41 code3: Er kan geen connectie gemaakt worden met de database: dial tcp 127.0.0.1:3306: connectex: No connection could be made because the target machine actively refused it.
